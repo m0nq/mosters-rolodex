@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { CardList } from './components/card-list/card-list.component';
+
+const App = () => {
+    const [monsters, setMonsters] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            console.log('Running useEffect()...');
+            const monsters = await (await fetch('https://jsonplaceholder.typicode.com/users')).json();
+            setMonsters(monsters);
+        })();
+    }, []);
+
+    return (
+        <div className="App">
+            <CardList monsters={monsters}/>
+        </div>
+    );
+};
 
 export default App;
